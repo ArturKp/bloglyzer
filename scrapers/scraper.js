@@ -4,6 +4,7 @@
 	var $q      = require('q');
 	var cheerio = require("cheerio");
 	var helpers = require('./helpers.js');
+	var mongodb = require('mongodb').MongoClient;
 
 	var Scraper = function (options) {
 		this.options = options;
@@ -41,7 +42,7 @@
 		 */
 		var getPictureCount = function (html) {
 			var deferred = $q.defer();
-			var images = cheerio.load('<div>' + html + '</div>')('img') || [];
+			var images = cheerio.load('<div>' + html + '</div>')('img').not('.wp-smiley').not('.emoji') || [];
 			deferred.resolve(images.length);
 			return deferred.promise;
 		};
@@ -111,8 +112,9 @@
 
 			// Collect all necessary data to this object
 			var post = {
-				// html: html,
-				url: url
+				html: html,
+				url: url,
+				site: _this.options.site
 			};
 
 			var deferred   = $q.defer();
@@ -176,12 +178,22 @@
 
 					analyzePost(html, url).then(
 						function success (data) {
-							this.posts.push(data);
+
+							_this.posts.push(data);
+
+							helpers.log(helpers.logType.SUCCESS, 'Successfully analyzed post at: ' + url);
+
+							mongodb.connect('mongodb://localhost:27017/bloglyzer', function(err, db) {
+								var collection = db.collection('post');
+								collection.insertMany([data], function (err, result) {
+									if(err) console.log('Mongodb error: ' + err);
+									else console.log('Mongodb success: ' + result);
+									db.close();
+								});
+							});
 
 							// When we have done analyzing we can say that this post promise is done
 							deferred.resolve();
-
-							helpers.log(helpers.logType.SUCCESS, 'Successfully analyzed post at: ' + url);
 
 						}, function failure (err) {
 							helpers.log(helpers.logType.FAIL, 'Failed to analyze post: ' + err);

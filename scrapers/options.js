@@ -101,7 +101,14 @@
 			getNextPost: wordpressDefaults.getNextPost,
 			getCommentsCount: wordpressDefaults.getCommentsCount,
 			getTitle: wordpressDefaults.getTitle,
-			getHtmlContent: wordpressDefaults.getHtmlContent,
+			getHtmlContent: function (html) {
+				var deferred = $q.defer();
+				var content = cheerio.load(html, cheerioOptions);
+				content('[action=like]').remove();
+				content('.addtoany_content_bottom').remove();
+				deferred.resolve(content('.entry-content').html());
+				return deferred.promise;
+			},
 			getPostDate: wordpressDefaults.getPostDate,
 			getTags: wordpressDefaults.getTags,
 			getCategories: wordpressDefaults.getCategories

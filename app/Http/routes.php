@@ -12,6 +12,6 @@
 */
 
 Route::get('/', function () {
-	\Bloglyzer\Models\OriginalPost::create(['test' => 'test']);
-    dd(Bloglyzer\Models\OriginalPost::all());
+	// Bloglyzer\Models\Post::where('url', 'like', '%marimell%')->delete();
+    return \Response::json(Bloglyzer\Models\Post::take(1)->skip(rand(0,1000))->first());
 });
