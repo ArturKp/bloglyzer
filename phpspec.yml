@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Bloglyzer
+        psr4_prefix: Bloglyzer
+        src_path: app
