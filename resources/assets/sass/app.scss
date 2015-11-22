@@ -1,2 +1,33 @@
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "datepicker";
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,700);
 
+body, html {
+	font-family: 'Lato', sans-serif;
+}
+
+#navbar {
+	width: 100%;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+#navbar-logo {
+	width: 120px;
+	margin: 0 auto;
+	display: block;
+}
+
+#login-logo {
+	width: 80%;
+	display: block;
+	margin: 0 auto;
+	margin-top: 100px;
+	margin-bottom: 50px;
+}
+
+.date-filters {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}

@@ -28,6 +28,6 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => \Bloglyzer\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest' => \Bloglyzer\Http\Middleware\RedirectIfAuthenticated::class,
+        'guest' => \Bloglyzer\Http\Middleware\Guest::class,
     ];
 }

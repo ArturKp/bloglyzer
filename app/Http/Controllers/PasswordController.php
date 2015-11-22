@@ -1,6 +1,6 @@
 <?php
 
-namespace Bloglyzer\Http\Controllers\Auth;
+namespace Bloglyzer\Http\Controllers;
 
 use Bloglyzer\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;

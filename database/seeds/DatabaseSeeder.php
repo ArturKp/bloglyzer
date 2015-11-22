@@ -16,6 +16,10 @@ class DatabaseSeeder extends Seeder
 
         // $this->call(UserTableSeeder::class);
 
+        \Bloglyzer\Models\User::create([
+            'name' => 'Blogi Analüüsija'
+        ]);
+
         Model::reguard();
     }
 }

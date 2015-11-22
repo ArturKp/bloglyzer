@@ -10,8 +10,16 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
-Route::get('/', function () {
-	// Bloglyzer\Models\Post::where('url', 'like', '%marimell%')->delete();
-    return \Response::json(Bloglyzer\Models\Post::take(1)->skip(rand(0,1000))->first());
+Route::group(['middleware' => 'guest'], function () {
+	Route::get('login', array('uses' => 'AuthController@showLogin'));
+	Route::post('login', array('uses' => 'AuthController@doLogin'));
 });
+
+Route::group(['middleware' => 'auth'], function () {
+
+	Route::get('logout', array('uses' => 'AuthController@doLogout'));
+
+	Route::get('/', array('uses' => 'HomeController@showHome'));
+
+});
+

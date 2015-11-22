@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'model' => Bloglyzer\User::class,
+    'model' => \Bloglyzer\Models\User::class,
 
     /*
     |--------------------------------------------------------------------------
