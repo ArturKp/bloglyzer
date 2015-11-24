@@ -8,6 +8,8 @@ class Post extends BaseModel {
 
 	protected $table = 'post';
 
+	// protected $dates = ['date'];
+
 	protected $guarded = ['id'];
 
 	protected $hidden = ['id', 'html'];

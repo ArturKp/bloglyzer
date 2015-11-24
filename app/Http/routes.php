@@ -11,15 +11,16 @@
 |
 */
 Route::group(['middleware' => 'guest'], function () {
-	Route::get('login', array('uses' => 'AuthController@showLogin'));
-	Route::post('login', array('uses' => 'AuthController@doLogin'));
+	Route::get('login', ['uses' => 'AuthController@showLogin']);
+	Route::post('login', ['uses' => 'AuthController@doLogin']);
 });
 
 Route::group(['middleware' => 'auth'], function () {
 
-	Route::get('logout', array('uses' => 'AuthController@doLogout'));
+	Route::get('logout', ['uses' => 'AuthController@doLogout']);
 
-	Route::get('/', array('uses' => 'HomeController@showHome'));
+	Route::get('/', ['uses' => 'HomeController@showHome']);
 
+	Route::get('/statistics', ['uses' => 'StatisticsController@getStatistics']);
 });
 

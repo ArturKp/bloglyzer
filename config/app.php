@@ -138,9 +138,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         Illuminate\Html\HtmlServiceProvider::class,
-
         Jenssegers\Mongodb\MongodbServiceProvider::class,
-
+        Witty\LaravelTableView\LaravelTableViewServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -198,6 +197,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
 
+        'TableView' => Witty\LaravelTableView\Facades\TableView::class,
         'Form'      => Illuminate\Html\FormFacade::class,
         'HTML'      => Illuminate\Html\HtmlFacade::class,
 
