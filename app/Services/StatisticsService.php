@@ -15,6 +15,11 @@ class StatisticsService {
 			return count($item);
 		})->avg();
 
+		$comments = round($comments, 2);
+		$pictures = round($pictures, 2);
+		$wordCount = round($wordCount, 2);
+		$ego = round($ego, 2);
+
 		$wordCounts = $posts->pluck('words');
 		$words = [];
 
