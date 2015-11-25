@@ -29,15 +29,6 @@ class StatisticsService {
 		arsort($words);
 		$words = collect($words)->take(200)->toArray();
 
-		$sObj = new \Bloglyzer\Models\StatisticsObject();
-		$sObj->setAttribute('count', $count);
-		$sObj->setAttribute('comments', $comments);
-		$sObj->setAttribute('pictures', $pictures);
-		$sObj->setAttribute('wordCount', $wordCount);
-		$sObj->setAttribute('ego', $ego);
-		$sObj->setAttribute('words', $words);
-		return $sObj;
-
 		return compact('count', 'comments', 'pictures', 'wordCount', 'ego', 'words');
 
 	}

@@ -64,6 +64,7 @@ class StatisticsController extends Controller {
 		$total['site'] = 'total';
 		$result[] = $total;
 		$result = collect($result);
+
 		return \View::make('columns', ['statistics' => $result]);
 	}
 
