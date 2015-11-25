@@ -176,6 +176,11 @@
 
 					// We do this in finally because it is important that the nextHref promise is done and new post promise is in queue already
 
+					if(_this.options.shouldSkip && _this.options.shouldSkip(html)) {
+						helpers.log(helpers.logType.SUCCESS, 'Skipped a post: ' + url);
+						deferred.resolve();
+					}
+
 					analyzePost(html, url).then(
 						function success (data) {
 

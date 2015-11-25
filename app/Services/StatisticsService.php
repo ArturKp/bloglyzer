@@ -27,7 +27,7 @@ class StatisticsService {
 			}
 		}
 		arsort($words);
-		$words = collect($words)->take(200)->toArray();
+		$words = collect($words)->take(1000)->toArray();
 
 		return compact('count', 'comments', 'pictures', 'wordCount', 'ego', 'words');
 

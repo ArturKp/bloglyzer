@@ -75,6 +75,9 @@
 			}).get();
 			deferred.resolve(categories);
 			return deferred.promise;
+		},
+		shouldSkip: function (html) {
+			return cheerio.load(html, cheerioOptions)('article').hasClass('post-password-required');
 		}
 
 	};
@@ -91,7 +94,8 @@
 			getHtmlContent: wordpressDefaults.getHtmlContent,
 			getPostDate: wordpressDefaults.getPostDate,
 			getTags: wordpressDefaults.getTags,
-			getCategories: wordpressDefaults.getCategories
+			getCategories: wordpressDefaults.getCategories,
+			shouldSkip: wordpressDefaults.shouldSkip
 		},
 
 		{
@@ -111,7 +115,8 @@
 			},
 			getPostDate: wordpressDefaults.getPostDate,
 			getTags: wordpressDefaults.getTags,
-			getCategories: wordpressDefaults.getCategories
+			getCategories: wordpressDefaults.getCategories,
+			shouldSkip: wordpressDefaults.shouldSkip
 		},
 
 		{
@@ -130,7 +135,8 @@
 			},
 			getPostDate: wordpressDefaults.getPostDate,
 			getTags: wordpressDefaults.getTags,
-			getCategories: wordpressDefaults.getCategories
+			getCategories: wordpressDefaults.getCategories,
+			shouldSkip: wordpressDefaults.shouldSkip
 		},
 
 		{
@@ -168,15 +174,13 @@
 			getPostDate: function (html) {
 				var deferred = $q.defer();
 				var date = cheerio.load(html, cheerioOptions);
-				date('.post-date-day-month-year script').remove();
-				date = date.text();
+				date = (date('#post-header-top').text().split(";")[0]).split(",")[1];
 
-				var dateParts = date.trim().replace(".", "").split(" ");
-
-				var months = ["Jaanuar", "Veebruar", "Märts", "Aprill", "Mai", "Juuni", "Juuli", "August", "September", "Oktoober", "November", "Detsember"];
+				var dateParts = date.trim().replace(".", "").replace("\"", "").split(" ");
+				var months = ["jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember"];
 				var monthNumber = months.indexOf(dateParts[1]);
-
-				deferred.resolve(new Date(dateParts[2], monthNumber, dateParts[0]));
+				var dateObj = new Date(dateParts[2], monthNumber, dateParts[0]);
+				deferred.resolve(dateObj);
 				return deferred.promise;
 			},
 			getTags: function (html) {
