@@ -179,31 +179,31 @@
 					if(_this.options.shouldSkip && _this.options.shouldSkip(html)) {
 						helpers.log(helpers.logType.SUCCESS, 'Skipped a post: ' + url);
 						deferred.resolve();
-					}
+					} else {
+						analyzePost(html, url).then(
+							function success (data) {
 
-					analyzePost(html, url).then(
-						function success (data) {
+								_this.posts.push(data);
 
-							_this.posts.push(data);
+								helpers.log(helpers.logType.SUCCESS, 'Successfully analyzed post at: ' + url);
 
-							helpers.log(helpers.logType.SUCCESS, 'Successfully analyzed post at: ' + url);
-
-							mongodb.connect('mongodb://localhost:27017/bloglyzer', function(err, db) {
-								var collection = db.collection('post');
-								collection.insertMany([data], function (err, result) {
-									if(err) console.log('Mongodb error: ' + err);
-									else console.log('Mongodb success: ' + result);
-									db.close();
+								mongodb.connect('mongodb://localhost:27017/bloglyzer', function(err, db) {
+									var collection = db.collection('post');
+									collection.insertMany([data], function (err, result) {
+										if(err) console.log('Mongodb error: ' + err);
+										else console.log('Mongodb success: ' + result);
+										db.close();
+									});
 								});
-							});
 
-							// When we have done analyzing we can say that this post promise is done
-							deferred.resolve();
+								// When we have done analyzing we can say that this post promise is done
+								deferred.resolve();
 
-						}, function failure (err) {
-							helpers.log(helpers.logType.FAIL, 'Failed to analyze post: ' + err);
-						}
-					);
+							}, function failure (err) {
+								helpers.log(helpers.logType.FAIL, 'Failed to analyze post: ' + err);
+							}
+						);
+					}
 				});
 			},
 			function failure (err) {
