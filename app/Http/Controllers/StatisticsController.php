@@ -41,6 +41,8 @@ class StatisticsController extends Controller {
 			$post = $post->where('date', '<', $toCarbon);
 		}
 
+		ini_set('memory_limit','256M');
+
 		$posts = $post->select(['pictures', 'words', 'comments', 'ego', 'words', 'wordCount', 'site'])->get();
 
 		$groups = $posts->groupBy(function($item, $key) {
