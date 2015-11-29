@@ -8,7 +8,7 @@ class Post extends BaseModel {
 
 	protected $table = 'post';
 
-	// protected $dates = ['date'];
+	protected $dates = ['date'];
 
 	protected $guarded = ['id'];
 

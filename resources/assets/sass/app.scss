@@ -2,6 +2,14 @@
 @import "datepicker";
 @import url(https://fonts.googleapis.com/css?family=Lato:400,300,700);
 
+.nowrap {
+	white-space: nowrap;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
 body, html {
 	font-family: 'Lato', sans-serif;
 }
@@ -30,4 +38,18 @@ body, html {
 .date-filters {
 	padding-top: 15px;
 	padding-bottom: 15px;
+}
+
+.posts-table {
+
+	td.data-title,
+	td.data-date,
+	td.data-tags {
+		white-space: nowrap;
+	}
+
+	ul {
+		margin-bottom: 0;
+	}
+
 }

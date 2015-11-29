@@ -8485,6 +8485,14 @@ button.close {
   margin-bottom: 0;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
 body,
 html {
   font-family: 'Lato', sans-serif;
@@ -8514,4 +8522,14 @@ html {
 .date-filters {
   padding-top: 15px;
   padding-bottom: 15px;
+}
+
+.posts-table td.data-title,
+.posts-table td.data-date,
+.posts-table td.data-tags {
+  white-space: nowrap;
+}
+
+.posts-table ul {
+  margin-bottom: 0;
 }

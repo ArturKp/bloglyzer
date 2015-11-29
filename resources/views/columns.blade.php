@@ -15,11 +15,11 @@
 		<?php
 
 			$data = [
-				'count' => 'Posts',
+				'count'     => 'Posts',
 				'wordCount' => 'Words/Post',
-				'comments' => 'Comments/Post',
-				'pictures' => 'Pictures/Post',
-				'ego' => 'Ego/Post'
+				'comments'  => 'Comments/Post',
+				'pictures'  => 'Pictures/Post',
+				'ego'       => 'Ego/Post'
 			];
 
 		?>
@@ -29,7 +29,11 @@
 				<tr>
 					<td>{{ $value }}</td>
 					@foreach($statistics as $stat)
-						<td>{{ $stat[$key] }}</td>
+						<td><a href="{{ \Url::route('posts.listing', [
+							'from' => \Input::get('from'),
+							'to'   => \Input::get('to'),
+							'site' => $stat['site']
+						]) }}">{{ $stat[$key] }}</a></td>
 					@endforeach
 				</tr>
 			@endforeach

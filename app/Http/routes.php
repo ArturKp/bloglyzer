@@ -22,5 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/', ['uses' => 'HomeController@showHome']);
 
 	Route::get('/statistics', ['uses' => 'StatisticsController@getStatistics']);
+
+	Route::get('/posts', ['as' => 'posts.listing', 'uses' => 'StatisticsController@getPosts']);
 });
 

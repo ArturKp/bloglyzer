@@ -9,41 +9,55 @@ use Carbon\Carbon;
 
 class StatisticsController extends Controller {
 
-	public function getStatistics()
+	protected $fromCarbon;
+	protected $toCarbon;
+	protected $postQuery;
+	public function __construct()
 	{
-		$from = \Input::get('from');
-		$to   = \Input::get('to');
-
-		try
-		{
-			if($to) {
-				$fromCarbon = new Carbon($from);
-			}
-		} catch (\Exception $e) {
-			\Log::error($e);
-		}
-
-		try
-		{
-			if($from) {
-				$toCarbon = new Carbon($to);
-			}
-		} catch (\Exception $e) {
-			\Log::error($e);
-		}
-
-		$post = new Post();
-
-		if(isset($fromCarbon)) {
-			$post = $post->where('date', '>', $fromCarbon);
-		}
-		if(isset($toCarbon)) {
-			$post = $post->where('date', '<', $toCarbon);
-		}
-
 		ini_set('memory_limit','256M');
 
-		$posts = $post->select(['pictures', 'words', 'comments', 'ego', 'words', 'wordCount', 'site'])->get();
+		$this->postQuery = new Post();
+
+		$from = \Input::get('from');
+		$to   = \Input::get('to');
+		$site = \Input::get('site');
+
+		try
+		{
+			$this->fromCarbon = $to ? new Carbon($from) : null;
+		}
+		catch (\Exception $e)
+		{
+			\Log::error($e);
+		}
+
+		try
+		{
+			$this->toCarbon = $from ? new Carbon($to) : null;
+		}
+		catch (\Exception $e) {
+			\Log::error($e);
+		}
+
+		if(isset($this->fromCarbon))
+		{
+			$this->postQuery = $this->postQuery->where('date', '>', $this->fromCarbon);
+		}
+
+		if(isset($this->toCarbon))
+		{
+			$this->postQuery = $this->postQuery->where('date', '<', $this->toCarbon);
+		}
+
+		if(isset($site) && $site != 'total')
+		{
+			$this->postQuery = $this->postQuery->where('site', '=', $site);
+		}
+	}
+
+	public function getStatistics()
+	{
+		$posts = $this->postQuery->select(['pictures', 'comments', 'ego', 'words', 'wordCount', 'site'])->get();
 
 		$groups = $posts->groupBy(function($item, $key) {
 			return $item->site;
@@ -62,12 +76,25 @@ class StatisticsController extends Controller {
 			return $value['site'];
 		}));
 
-		$total = StatisticsService::average($posts);
+		$total         = StatisticsService::average($posts);
 		$total['site'] = 'total';
-		$result[] = $total;
-		$result = collect($result);
+		$result[]      = $total;
+		$result        = collect($result);
 
 		return \View::make('columns', ['statistics' => $result]);
+	}
+
+	public function getPosts()
+	{
+		$selects = ['_id', 'url', 'site', 'title', 'tags', 'date', 'categories', 'comments', 'pictures', 'wordCount', 'ego'];
+
+		$posts = $this->postQuery->select($selects)->get();
+
+		$posts = $posts->sortByDesc('date');
+
+		$header = array_diff($selects, ['_id', 'url']);
+
+		return \View::make('posts', compact('posts', 'header'));
 	}
 
 }

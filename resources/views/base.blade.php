@@ -13,10 +13,10 @@
 	<body>
 
 		<div id="navbar">
-			<img src="{{ URL::to('/') }}/images/bloglyzer.png" alt="" id="navbar-logo">
+			<a href="/"><img src="{{ URL::to('/') }}/images/bloglyzer.png" alt="" id="navbar-logo"></a>
 		</div>
 
-		<div class="container">
+		<div class="col-xs-12">
 			@yield('content')
 		</div>
 
@@ -25,6 +25,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+		<script src="js/main.js"></script>
 
 		<script>
 			jQuery( ".datepicker" ).datepicker({

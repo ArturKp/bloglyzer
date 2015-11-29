@@ -200,6 +200,7 @@ return [
         'TableView' => Witty\LaravelTableView\Facades\TableView::class,
         'Form'      => Illuminate\Html\FormFacade::class,
         'HTML'      => Illuminate\Html\HtmlFacade::class,
+        'Url'       => Illuminate\Support\Facades\URL::class,
 
     ],
 
