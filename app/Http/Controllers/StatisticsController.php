@@ -24,7 +24,7 @@ class StatisticsController extends Controller {
 
 		try
 		{
-			$this->fromCarbon = $to ? new Carbon($from) : null;
+			$this->fromCarbon = $from ? new Carbon($from) : null;
 		}
 		catch (\Exception $e)
 		{
@@ -33,7 +33,7 @@ class StatisticsController extends Controller {
 
 		try
 		{
-			$this->toCarbon = $from ? new Carbon($to) : null;
+			$this->toCarbon = $to ? new Carbon($to) : Carbon::now();
 		}
 		catch (\Exception $e) {
 			\Log::error($e);

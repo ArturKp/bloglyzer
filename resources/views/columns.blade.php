@@ -2,7 +2,7 @@
 
 @section('statistics')
 
-	<table class="table table-striped">
+	<table class="table table-striped statistics-overview-table">
 		<thead>
 			<tr>
 				<th></th>
@@ -41,9 +41,9 @@
 				<td>Words</td>
 				@foreach($statistics as $stat)
 					<td>
-						<ol>
+						<ol class="word-usage-list">
 							@foreach($stat['words'] as $word => $count)
-								<li><span class="word">{{$word}}</span> <span class="count">{{ $count }}</span></li>
+								<li><span class="word">{{$word}}</span> <span class="count">{{ $count }}</span> <span class="count-percentage">({{ round(($count / $stat['totalWords']) * 100, 4) }} %)</span></li>
 							@endforeach
 						</ol>
 					</td>

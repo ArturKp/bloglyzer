@@ -11,6 +11,7 @@ class StatisticsService {
 		$comments  = $posts->pluck('comments')->avg();
 		$pictures  = $posts->pluck('pictures')->avg();
 		$wordCount = $posts->pluck('wordCount')->avg();
+		$totalWords = $posts->pluck('wordCount')->sum();
 		$ego       = $posts->pluck('ego')->map(function($item, $key){
 			return count($item);
 		})->avg();
@@ -32,9 +33,15 @@ class StatisticsService {
 			}
 		}
 		arsort($words);
-		$words = collect($words)->take(1000)->toArray();
+		$words = array_slice($words, 0, 5000);
+		$words = array_filter($words, function($value) {
+			return $value > 2;
+		});
+		// collect($words)->filter(function ($key, $value) {
+		// 	return $value > 2;
+		// })->toArray();
 
-		return compact('count', 'comments', 'pictures', 'wordCount', 'ego', 'words');
+		return compact('count', 'comments', 'pictures', 'wordCount', 'ego', 'words', 'totalWords');
 
 	}
 

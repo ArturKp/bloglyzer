@@ -5,6 +5,7 @@
 	var cheerio = require("cheerio");
 	var helpers = require('./helpers.js');
 	var mongodb = require('mongodb').MongoClient;
+	var settings = require('./settings.js').settings || {};
 
 	var Scraper = function (options) {
 		this.options = options;
@@ -30,7 +31,7 @@
 		 */
 		var getEgoSentences = function (text) {
 			var deferred = $q.defer();
-			var ego = text.match(/[^.\?\!]*[^\da-zäöüõ](mina|ma|mul|minul|mulle)[^\da-zäöüõ][^.\?\!]*[.\?\!]/gi);
+			var ego = text.match(/[^.\?\!]*[^\da-zäöüõ](mina|ma|mul|minul|mulle|minule|minu)[^\da-zäöüõ][^.\?\!]*[.\?\!]/gi);
 			deferred.resolve(ego);
 			return deferred.promise;
 		};
@@ -187,7 +188,12 @@
 
 								helpers.log(helpers.logType.SUCCESS, 'Successfully analyzed post at: ' + url);
 
-								mongodb.connect('mongodb://localhost:27017/bloglyzer', function(err, db) {
+								var mongoUrl = 'mongodb://localhost:27017/bloglyzer';
+								if(settings.mongodb && settings.mongodb.user && settings.mongodb.password) {
+									mongoUrl = 'mongodb://' + settings.mongodb.user + ':' + settings.mongodb.password + '@localhost:27017/bloglyzer';
+								}
+
+								mongodb.connect(mongoUrl, function(err, db) {
 									var collection = db.collection('post');
 									collection.insertMany([data], function (err, result) {
 										if(err) console.log('Mongodb error: ' + err);
