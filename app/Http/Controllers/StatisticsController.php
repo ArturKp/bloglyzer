@@ -4,6 +4,7 @@ namespace Bloglyzer\Http\Controllers;
 
 use Bloglyzer\Http\Controllers\Controller;
 use Bloglyzer\Models\Post;
+use Bloglyzer\Services\ExcelService;
 use Bloglyzer\Services\StatisticsService;
 use Carbon\Carbon;
 
@@ -12,15 +13,21 @@ class StatisticsController extends Controller {
 	protected $fromCarbon;
 	protected $toCarbon;
 	protected $postQuery;
+	protected $excel;
+
+	const FILENAME_DATE_FORMAT = 'Y_m_d';
+
 	public function __construct()
 	{
 		ini_set('memory_limit','256M');
 
 		$this->postQuery = new Post();
 
-		$from = \Input::get('from');
-		$to   = \Input::get('to');
-		$site = \Input::get('site');
+		$from        = \Input::get('from');
+		$to          = \Input::get('to');
+		$site        = \Input::get('site');
+
+		$this->excel = !! \Input::get('excel');
 
 		try
 		{
@@ -79,13 +86,39 @@ class StatisticsController extends Controller {
 		$total         = StatisticsService::average($posts);
 		$total['site'] = 'total';
 		$result[]      = $total;
-		$result        = collect($result);
+		$result        = $result;
+
+		if($this->excel)
+		{
+
+			$filename = 'bloglyzer';
+			$filename .= \Input::get('words') ? '_words' : 'general';
+			if($this->fromCarbon && $this->toCarbon)
+			{
+				$filename .= '_' . $this->fromCarbon->format(self::FILENAME_DATE_FORMAT) . '-' . $this->toCarbon->format(self::FILENAME_DATE_FORMAT);
+			}
+			else
+			{
+				$filename .= time();
+			}
+
+			// Following is not working
+			if(\Input::get('words')) {
+				$words = array_pluck($result, 'words', 'site');
+				// array_unshift($words, null);
+				// $words = call_user_func_array('array_map', $words);
+
+				return ExcelService::getExcel($words, $filename);
+			}
+			return ExcelService::getExcel($result, $filename);
+		}
 
 		return \View::make('columns', ['statistics' => $result]);
 	}
 
 	public function getPosts()
 	{
+
 		$selects = ['_id', 'url', 'site', 'title', 'tags', 'date', 'categories', 'comments', 'pictures', 'wordCount', 'ego'];
 
 		$posts = $this->postQuery->select($selects)->get();
@@ -93,6 +126,11 @@ class StatisticsController extends Controller {
 		$posts = $posts->sortByDesc('date');
 
 		$header = array_diff($selects, ['_id', 'url']);
+
+		if($this->excel)
+		{
+			return ExcelService::getExcel($posts);
+		}
 
 		return \View::make('posts', compact('posts', 'header'));
 	}

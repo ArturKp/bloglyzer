@@ -139,7 +139,7 @@ return [
 
         Illuminate\Html\HtmlServiceProvider::class,
         Jenssegers\Mongodb\MongodbServiceProvider::class,
-        Witty\LaravelTableView\LaravelTableViewServiceProvider::class,
+        // Witty\LaravelTableView\LaravelTableViewServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -147,6 +147,7 @@ return [
         Bloglyzer\Providers\AuthServiceProvider::class,
         Bloglyzer\Providers\EventServiceProvider::class,
         Bloglyzer\Providers\RouteServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class
 
     ],
 
@@ -201,6 +202,8 @@ return [
         'Form'      => Illuminate\Html\FormFacade::class,
         'HTML'      => Illuminate\Html\HtmlFacade::class,
         'Url'       => Illuminate\Support\Facades\URL::class,
+        'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
+        'Str'       => Illuminate\Support\Str::class,
 
     ],
 

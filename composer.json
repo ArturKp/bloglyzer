@@ -8,7 +8,8 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
         "jenssegers/mongodb": "^2.2",
-        "illuminate/html": "5.0.*@dev"
+        "illuminate/html": "5.0.*@dev",
+        "maatwebsite/excel": "~2.0.10"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

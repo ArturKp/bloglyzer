@@ -5,6 +5,12 @@
 	<table class="table table-striped statistics-overview-table">
 		<thead>
 			<tr>
+				<th colspan="43">
+					<a href="{{ \URL::full() . '&excel=true'  }}">Download general</a>
+					{{-- <a href="{{ \URL::full() . '&words=true&excel=true'  }}">Download words</a> --}}
+				</th>
+			</tr>
+			<tr>
 				<th></th>
 				@foreach($statistics as $stat)
 					<th>{{ $stat['site'] }}</th>
@@ -43,7 +49,10 @@
 					<td>
 						<ol class="word-usage-list">
 							@foreach($stat['words'] as $word => $count)
-								<li><span class="word">{{$word}}</span> <span class="count">{{ $count }}</span> <span class="count-percentage">({{ round(($count / $stat['totalWords']) * 100, 4) }} %)</span></li>
+								<li>
+									<span class="word tcell">{!! \Bloglyzer\Services\HighlighterService::wrapWord($word) !!}</span>
+									<span class="count tcell">{{ $count }}</span>
+									<span class="count-percentage tcell">({{ round(($count / $stat['totalWords']) * 100, 4) }} %)</span></li>
 							@endforeach
 						</ol>
 					</td>

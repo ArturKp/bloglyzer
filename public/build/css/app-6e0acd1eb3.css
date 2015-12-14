@@ -8561,7 +8561,7 @@ html {
   text-align: right;
 }
 
-.word-usage-list span {
+.word-usage-list span.tcell {
   white-space: nowrap;
   display: table-cell;
   padding-left: 3px;
@@ -8570,4 +8570,10 @@ html {
 
 .word-usage-list .count-percentage {
   color: #ccc;
+}
+
+.superword {
+  font-weight: 700;
+  color: red;
+  text-decoration: underline;
 }

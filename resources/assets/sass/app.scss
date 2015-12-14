@@ -81,7 +81,7 @@ body, html {
 		}
 	}
 
-	span {
+	span.tcell {
 		white-space: nowrap;
 		display: table-cell;
 		padding-left: 3px;
@@ -91,4 +91,10 @@ body, html {
 	.count-percentage {
 		color: #ccc;
 	}
+}
+
+.superword {
+	font-weight: 700;
+	color: red;
+	text-decoration: underline;
 }
