@@ -24,5 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/statistics', ['uses' => 'StatisticsController@getStatistics']);
 
 	Route::get('/posts', ['as' => 'posts.listing', 'uses' => 'StatisticsController@getPosts']);
+
+	Route::get('/posts/{id}', ['as' => 'posts.single', 'uses' => 'StatisticsController@showPost']);
 });
 

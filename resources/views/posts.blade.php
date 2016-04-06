@@ -60,6 +60,8 @@
 
 							@elseif(in_array($s, ['title', 'site']))
 								<a href="{{ $post['url'] }}">{{ $data }}</a>
+							@elseif($s === '_id')
+								<a href="{{ \URL::route('posts.single', ['id' => $post->id]) }}">{{ $post->id }}</a>
 							@else
 								{{ $data }}
 							@endif

@@ -42,6 +42,11 @@ class StatisticsController extends Controller {
 		}
 	}
 
+	public function showPost($id)
+	{
+		return Post::where('_id', '=', $id)->first()->html;
+	}
+
 	public function getStatistics()
 	{
 		$posts = $this->postQuery->select(['pictures', 'comments', 'ego', 'lemmas', 'wordCount', 'site', 'emotionalScore', 'emotionalScoreX', 'emotionalScoreY'])->get();
@@ -111,7 +116,7 @@ class StatisticsController extends Controller {
 			$posts = $posts->sortBy($sort);
 		}
 
-		$header = array_diff($selects, ['_id', 'url']);
+		$header = array_diff($selects, ['url']);
 
 		if($this->excel)
 		{
