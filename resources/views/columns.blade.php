@@ -2,8 +2,6 @@
 
 @section('statistics')
 
-	<label for="superwords-cb"><input id="superwords-cb" type="checkbox">Show only emotionalwords</label>
-
 	<table class="table table-striped statistics-overview-table">
 		<thead>
 			<tr>
@@ -38,18 +36,20 @@
 			$emotionalwords = [];
 
 			foreach (\Bloglyzer\Models\Emotionalword::all() as $ew) {
-				$emotionalwords[$ew['word']] = $ew['score'];
+				$emotionalwords[$ew['word']] = $ew->toArray();
 			}
 
 			$emotionalwordKeys = array_keys($emotionalwords);
 
 			$data = [
-				'count'          => 'Posts',
-				'wordCount'      => 'Words/Post',
-				'emotionalScore' => 'Em. Score/Post',
-				'comments'       => 'Comments/Post',
-				'pictures'       => 'Pictures/Post',
-				'ego'            => 'Ego/Post'
+				'count'           => 'Posts',
+				'wordCount'       => 'Words/Post',
+				'emotionalScore'  => 'Em. Score/Post',
+				'emotionalScoreX' => 'EmX. Score/Post',
+				'emotionalScoreY' => 'EmY. Score/Post',
+				'comments'        => 'Comments/Post',
+				'pictures'        => 'Pictures/Post',
+				'ego'             => 'Ego/Post'
 			];
 
 		?>
@@ -57,7 +57,7 @@
 		<tbody>
 			@foreach($data as $key => $value)
 				<tr>
-					<td>{{ $value }}</td>
+					<td style="white-space: nowrap">{{ $value }}</td>
 					@foreach($statistics as $stat)
 						<td><a href="{{ getListingUrl([
 							'site' => $stat['site']
@@ -69,21 +69,58 @@
 				<td>Words</td>
 				@foreach($statistics as $stat)
 					<td>
-						<ol class="word-usage-list">
-							@foreach($stat['words'] as $word => $count)
-								<?php
-									$superword = in_array($word, $emotionalwordKeys);
-									$superwordScore = $superword ? array_get($emotionalwords, $word, 0) : 0;
-									$superwordScore = number_format($superwordScore, 10, '.', ' ');
-								?>
-								<li class="<?php echo $superword ? 'superword' : '' ?>">
-									<span class="word tcell">{!! $word !!}</span>
-									<span class="count tcell">{{ $count }}</span>
-									<span class="count-percentage tcell">({{ round(($count / $stat['totalWords']) * 100, 4) }} %)</span>
-									<span class="tcell superscore">{{ $superword ? $superwordScore : '' }}</span>
-								</li>
-							@endforeach
-						</ol>
+						<table class="word-usage-list">
+							<thead>
+								<tr>
+									<th>Word</th>
+									<th>Count</th>
+									<th>%</th>
+									<th>score (1)</th>
+									<th>scoreX (1)</th>
+									<th>scoreY (1)</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<?php foreach ($stat['words'] as $word => $count): ?>
+
+									<?php
+										$superword = in_array($word, $emotionalwordKeys);
+
+										if(\Input::get('onlysuperwords') == 1 && ! $superword) {
+											continue;
+										}
+
+										if($superword) {
+											$superwordScore = array_get($emotionalwords, $word . '.score', 0);
+											$superwordScore = number_format($superwordScore, 10, '.', ' ');
+
+											$superwordScoreX = array_get($emotionalwords, $word . '.scorex', 0);
+											$superwordScoreX = number_format($superwordScoreX, 10, '.', ' ');
+
+											$superwordScoreY = array_get($emotionalwords, $word . '.scorey', 0);
+											$superwordScoreY = number_format($superwordScoreY, 10, '.', ' ');
+										}
+										else
+										{
+											$superwordScore = 0;
+											$superwordScoreX = 0;
+											$superwordScoreY = 0;
+										}
+
+									?>
+
+									<tr class="<?php echo $superword ? 'superword' : '' ?>">
+										<td class="word tcell">{!! $word !!}</td>
+										<td class="count tcell">{{ $count }}</td>
+										<td class="count-percentage tcell">({{ round(($count / $stat['totalWords']) * 100, 4) }} %)</td>
+										<td class="tcell superscore">{{ $superwordScore }}</td>
+										<td class="tcell superscore">{{ $superwordScoreX }}</td>
+										<td class="tcell superscore">{{ $superwordScoreY }}</td>
+									</tr>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
 					</td>
 				@endforeach
 			</tr>

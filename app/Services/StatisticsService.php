@@ -7,13 +7,15 @@ class StatisticsService {
 	public static function average(\Illuminate\Support\Collection $posts)
 	{
 
-		$count          = $posts->count();
-		$comments       = $posts->pluck('comments')->avg();
-		$pictures       = $posts->pluck('pictures')->avg();
-		$wordCount      = $posts->pluck('wordCount')->avg();
-		$totalWords     = $posts->pluck('wordCount')->sum();
-		$emotionalScore = $posts->pluck('emotionalScore')->avg();
-		$ego            = $posts->pluck('ego')->map(function($item, $key) {
+		$count           = $posts->count();
+		$comments        = $posts->pluck('comments')->avg();
+		$pictures        = $posts->pluck('pictures')->avg();
+		$wordCount       = $posts->pluck('wordCount')->avg();
+		$totalWords      = $posts->pluck('wordCount')->sum();
+		$emotionalScore  = $posts->pluck('emotionalScore')->avg();
+		$emotionalScoreX = $posts->pluck('emotionalScoreX')->avg();
+		$emotionalScoreY = $posts->pluck('emotionalScoreY')->avg();
+		$ego             = $posts->pluck('ego')->map(function($item, $key) {
 			return count($item);
 		})->avg();
 
@@ -42,7 +44,7 @@ class StatisticsService {
 		// 	return $value > 2;
 		// })->toArray();
 
-		return compact('count', 'comments', 'pictures', 'wordCount', 'ego', 'words', 'totalWords', 'emotionalScore');
+		return compact('count', 'comments', 'pictures', 'wordCount', 'ego', 'words', 'totalWords', 'emotionalScore', 'emotionalScoreX', 'emotionalScoreY');
 
 	}
 

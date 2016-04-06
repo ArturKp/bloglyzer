@@ -8538,18 +8538,18 @@ html {
   border-right: 1px solid #ddd;
 }
 
-.word-usage-list {
+/*.word-usage-list {
   display: table;
   width: 100%;
   counter-reset: table-ol;
 }
-
-.word-usage-list li {
+*/
+/*.word-usage-list li {
   display: table-row;
   counter-increment: table-ol;
-}
+}*/
 
-.word-usage-list li:nth-child(2n) span,
+/*.word-usage-list li:nth-child(2n) span,
 .word-usage-list li:nth-child(2n):before {
   background: #F6F6F6;
 }
@@ -8559,14 +8559,14 @@ html {
   display: table-cell;
   padding-right: 3px;
   text-align: right;
-}
+}*/
 
-.word-usage-list span.tcell {
+/*.word-usage-list span.tcell {
   white-space: nowrap;
   display: table-cell;
   padding-left: 3px;
   padding-right: 3px;
-}
+}*/
 
 .word-usage-list .count-percentage {
   color: #ccc;
@@ -8575,4 +8575,15 @@ html {
 .superword {
   font-weight: 700;
   color: black;
+}
+
+.word-usage-list td {
+  white-space: nowrap;
+  padding: 0 4px;
+  border: none;
+}
+
+.word-usage-list th {
+  text-align: center;
+  white-space: nowrap;
 }

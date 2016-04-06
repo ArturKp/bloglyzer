@@ -7,7 +7,8 @@
 		function getListingUrl($params = []) {
 			$params = $params + [
 				'from' => \Input::get('from'),
-				'to'   => \Input::get('to')
+				'to'   => \Input::get('to'),
+				'site' => \Input::get('site')
 			];
 			return \Url::route('posts.listing', $params);
 		}

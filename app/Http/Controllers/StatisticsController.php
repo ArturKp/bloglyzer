@@ -44,7 +44,7 @@ class StatisticsController extends Controller {
 
 	public function getStatistics()
 	{
-		$posts = $this->postQuery->select(['pictures', 'comments', 'ego', 'lemmas', 'wordCount', 'site', 'emotionalScore'])->get();
+		$posts = $this->postQuery->select(['pictures', 'comments', 'ego', 'lemmas', 'wordCount', 'site', 'emotionalScore', 'emotionalScoreX', 'emotionalScoreY'])->get();
 
 		$groups = $posts->groupBy(function($item, $key) {
 			return $item->site;
@@ -99,7 +99,7 @@ class StatisticsController extends Controller {
 	public function getPosts()
 	{
 
-		$selects = ['_id', 'url', 'site', 'title', 'emotionalScore', 'tags', 'date', 'categories', 'comments', 'pictures', 'wordCount', 'ego'];
+		$selects = ['_id', 'url', 'site', 'title', 'emotionalScore', 'emotionalScoreX', 'emotionalScoreY', 'tags', 'date', 'categories', 'comments', 'pictures', 'wordCount', 'ego'];
 
 		$posts = $this->postQuery->select($selects)->get();
 
