@@ -7,4 +7,14 @@
 		jQuery(this).hide();
 	});
 
+	jQuery('#superwords-cb').change(function() {
+		if(this.checked) {
+			jQuery('.word-usage-list li:not(.superword)').hide();
+		}
+		else
+		{
+			jQuery('.word-usage-list li').show();
+		}
+	});
+
 })();

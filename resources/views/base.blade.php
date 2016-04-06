@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Bloglyzer</title>
 
-		<link rel="stylesheet" href="{{ elixir('css/app.css') }}" />
+		<link rel="stylesheet" href="css/app.css" />
 
 	</head>
 

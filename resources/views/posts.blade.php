@@ -2,11 +2,28 @@
 
 @section('statistics')
 
+	<?php
+
+		function getListingUrl($params = []) {
+			$params = $params + [
+				'from' => \Input::get('from'),
+				'to'   => \Input::get('to')
+			];
+			return \Url::route('posts.listing', $params);
+		}
+
+	?>
+
 	<table class="table table-striped posts-table">
 		<thead>
 			<tr>
 				@foreach($header as $s)
-					<th>{{$s}}</th>
+					<th>
+						<a href="{{ getListingUrl([
+							'sort' => $s,
+							'order' => \Input::get('order', 'asc') === 'asc' ? 'desc' : 'asc'
+						]) }}">{{$s}}</a>
+					</th>
 				@endforeach
 			</tr>
 		</thead>
