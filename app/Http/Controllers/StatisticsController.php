@@ -47,6 +47,11 @@ class StatisticsController extends Controller {
 		return Post::where('_id', '=', $id)->first()->html;
 	}
 
+	public function showText($id)
+	{
+		return Post::where('_id', '=', $id)->first()->content;
+	}
+
 	public function getStatistics()
 	{
 		$posts = $this->postQuery->select(['pictures', 'comments', 'ego', 'lemmas', 'wordCount', 'site', 'emotionalScore', 'emotionalScoreX', 'emotionalScoreY'])->get();

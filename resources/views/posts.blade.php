@@ -61,7 +61,7 @@
 							@elseif(in_array($s, ['title', 'site']))
 								<a href="{{ $post['url'] }}">{{ $data }}</a>
 							@elseif($s === '_id')
-								<a href="{{ \URL::route('posts.single', ['id' => $post->id]) }}">{{ $post->id }}</a>
+								<span style="white-space: nowrap;"><a href="{{ \URL::route('posts.html', ['id' => $post->id]) }}">HTML</a> | <a href="{{ \URL::route('posts.text', ['id' => $post->id]) }}">TEXT</a></span>
 							@else
 								{{ $data }}
 							@endif
